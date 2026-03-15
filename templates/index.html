@@ -1,47 +1,154 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Flask DevOps App</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask DevOps Dashboard</title>
     <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background: #1a1a2e;
+            font-family: 'Segoe UI', sans-serif;
+            background: #0a0a0a;
             color: white;
+            min-height: 100vh;
         }
-        .card {
+        nav {
+            background: #111;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #e94560;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #e94560;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 30px;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover { color: #e94560; }
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
             text-align: center;
             padding: 40px;
-            background: #16213e;
-            border-radius: 15px;
-            border: 2px solid #0f3460;
         }
-        h1 { color: #e94560; }
-        p { color: #a8b2d8; }
+        .hero h1 {
+            font-size: 56px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #e94560, #0f3460);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p {
+            font-size: 20px;
+            color: #a8b2d8;
+            margin-bottom: 40px;
+            max-width: 600px;
+        }
+        .badges {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
         .badge {
-            background: #0f3460;
-            padding: 8px 20px;
-            border-radius: 20px;
-            margin: 5px;
+            background: #16213e;
+            border: 1px solid #0f3460;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-size: 16px;
+        }
+        .btn {
+            background: #e94560;
+            color: white;
+            padding: 15px 40px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            transition: transform 0.3s;
             display: inline-block;
         }
+        .btn:hover { transform: scale(1.05); }
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            padding: 60px 100px;
+            background: #111;
+        }
+        .card {
+            background: #16213e;
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid #0f3460;
+            text-align: center;
+        }
+        .card h3 { color: #e94560; margin-bottom: 15px; font-size: 20px; }
+        .card p { color: #a8b2d8; line-height: 1.6; }
+        .icon { font-size: 40px; margin-bottom: 15px; }
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #a8b2d8;
+            border-top: 1px solid #16213e;
+        }
+        footer span { color: #e94560; }
     </style>
 </head>
 <body>
-    <div class="card">
-        <h1>🚀 Flask DevOps App</h1>
-        <p>Deployed using Docker + GitHub Actions + Render</p>
-        <br>
-        <span class="badge">🐍 Python</span>
-        <span class="badge">🐳 Docker</span>
-        <span class="badge">⚙️ GitHub Actions</span>
-        <span class="badge">☁️ Render</span>
-        <br><br>
-        <p>Built by <strong>Nihar Ranjan Dwivedi</strong></p>
+    <nav>
+        <div class="logo">🚀 DevOps Dashboard</div>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/health">Health</a>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <h1>Flask DevOps Dashboard</h1>
+        <p>A production-ready Flask application deployed using Docker, GitHub Actions CI/CD pipeline and Render.com</p>
+        <div class="badges">
+            <span class="badge">🐍 Python Flask</span>
+            <span class="badge">🐳 Docker</span>
+            <span class="badge">⚙️ GitHub Actions</span>
+            <span class="badge">☁️ Render.com</span>
+        </div>
+        <a href="/dashboard" class="btn">View Live Dashboard →</a>
     </div>
+
+    <div class="cards">
+        <div class="card">
+            <div class="icon">🐳</div>
+            <h3>Dockerized</h3>
+            <p>App is fully containerized using Docker for consistent deployment across all environments</p>
+        </div>
+        <div class="card">
+            <div class="icon">⚙️</div>
+            <h3>CI/CD Pipeline</h3>
+            <p>Automated build and deployment using GitHub Actions — every push triggers automatic deployment</p>
+        </div>
+        <div class="card">
+            <div class="icon">📊</div>
+            <h3>Live Monitoring</h3>
+            <p>Real-time system metrics including CPU, memory and disk usage displayed on dashboard</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>Built by <span>Nihar Ranjan Dwivedi</span> | Flask + Docker + GitHub Actions + Render</p>
+    </footer>
 </body>
 </html>

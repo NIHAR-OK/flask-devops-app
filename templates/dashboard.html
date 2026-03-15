@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - DevOps App</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #0a0a0a;
+            color: white;
+            min-height: 100vh;
+        }
+        nav {
+            background: #111;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #e94560;
+        }
+        .logo { font-size: 24px; font-weight: bold; color: #e94560; }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 30px;
+            font-size: 16px;
+        }
+        .nav-links a:hover { color: #e94560; }
+        .dashboard {
+            padding: 40px 60px;
+        }
+        h2 {
+            font-size: 32px;
+            margin-bottom: 30px;
+            color: #e94560;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        .stat-card {
+            background: #16213e;
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid #0f3460;
+        }
+        .stat-card h3 {
+            color: #a8b2d8;
+            font-size: 14px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+        .stat-value {
+            font-size: 42px;
+            font-weight: bold;
+            color: #e94560;
+        }
+        .stat-label {
+            color: #a8b2d8;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        .progress-bar {
+            background: #0a0a0a;
+            border-radius: 10px;
+            height: 10px;
+            margin-top: 15px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            border-radius: 10px;
+            background: linear-gradient(90deg, #e94560, #0f3460);
+            transition: width 0.5s ease;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+        }
+        .info-card {
+            background: #16213e;
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid #0f3460;
+        }
+        .info-card h3 {
+            color: #e94560;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #0f3460;
+            color: #a8b2d8;
+        }
+        .info-row span:last-child { color: white; }
+        .refresh-btn {
+            background: #e94560;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-bottom: 30px;
+        }
+        .refresh-btn:hover { opacity: 0.8; }
+        .status-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background: #00ff88;
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #a8b2d8;
+            border-top: 1px solid #16213e;
+            margin-top: 40px;
+        }
+        footer span { color: #e94560; }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">🚀 DevOps Dashboard</div>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/health">Health</a>
+        </div>
+    </nav>
+
+    <div class="dashboard">
+        <h2><span class="status-dot"></span>Live System Metrics</h2>
+        <button class="refresh-btn" onclick="loadStats()">🔄 Refresh Stats</button>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>CPU Usage</h3>
+                <div class="stat-value" id="cpu">--</div>
+                <div class="stat-label">Percent Used</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="cpu-bar" style="width:0%"></div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <h3>Memory Usage</h3>
+                <div class="stat-value" id="memory">--</div>
+                <div class="stat-label" id="memory-label">GB Used</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="memory-bar" style="width:0%"></div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <h3>Disk Usage</h3>
+                <div class="stat-value" id="disk">--</div>
+                <div class="stat-label" id="disk-label">GB Used</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="disk-bar" style="width:0%"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-grid">
+            <div class="info-card">
+                <h3>⚙️ System Information</h3>
+                <div class="info-row">
+                    <span>Platform</span>
+                    <span id="platform">--</span>
+                </div>
+                <div class="info-row">
+                    <span>Python Version</span>
+                    <span id="python">--</span>
+                </div>
+                <div class="info-row">
+                    <span>Hostname</span>
+                    <span id="hostname">--</span>
+                </div>
+                <div class="info-row">
+                    <span>Last Updated</span>
+                    <span id="uptime">--</span>
+                </div>
+            </div>
+            <div class="info-card">
+                <h3>🚀 Deployment Stack</h3>
+                <div class="info-row">
+                    <span>Framework</span>
+                    <span>Python Flask</span>
+                </div>
+                <div class="info-row">
+                    <span>Container</span>
+                    <span>Docker</span>
+                </div>
+                <div class="info-row">
+                    <span>CI/CD</span>
+                    <span>GitHub Actions</span>
+                </div>
+                <div class="info-row">
+                    <span>Hosting</span>
+                    <span>Render.com</span>
+                </div>
+                <div class="info-row">
+                    <span>Developer</span>
+                    <span>Nihar Ranjan Dwivedi</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Built by <span>Nihar Ranjan Dwivedi</span> | Flask + Docker + GitHub Actions + Render</p>
+    </footer>
+
+    <script>
+        async function loadStats() {
+            try {
+                const response = await fetch('/api/stats');
+                const data = await response.json();
+
+                document.getElementById('cpu').textContent = data.cpu_percent + '%';
+                document.getElementById('cpu-bar').style.width = data.cpu_percent + '%';
+
+                document.getElementById('memory').textContent = data.memory_percent + '%';
+                document.getElementById('memory-label').textContent = data.memory_used + ' / ' + data.memory_total;
+                document.getElementById('memory-bar').style.width = data.memory_percent + '%';
+
+                document.getElementById('disk').textContent = data.disk_percent + '%';
+                document.getElementById('disk-label').textContent = data.disk_used + ' / ' + data.disk_total;
+                document.getElementById('disk-bar').style.width = data.disk_percent + '%';
+
+                document.getElementById('platform').textContent = data.platform;
+                document.getElementById('python').textContent = data.python_version;
+                document.getElementById('hostname').textContent = data.hostname;
+                document.getElementById('uptime').textContent = data.uptime;
+            } catch (error) {
+                console.error('Error loading stats:', error);
+            }
+        }
+
+        loadStats();
+        setInterval(loadStats, 5000);
+    </script>
+</body>
+</html>
